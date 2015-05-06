@@ -81,27 +81,13 @@ a {
   color: #fff;
   text-align: center;
   background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url("http://kbhff.dk/wp-content/themes/TwentyEleven/images/header/a.JPG");
+  background-size: cover;
+  background-image:
+    url("http://kbhff.dk/wp-content/themes/TwentyEleven/images/header/a.JPG");
+  position: relative;
+  width: 100%;
+  height: auto;
 }
-
-.page-header #logo {
-    left: 15px;
-    position: absolute;
-    top: 3px;
-}
-
-@media screen and (min-width: 64em) {
-  .page-header {
-    padding: 1rem 6rem; } }
-
-@media screen and (min-width: 42em) and (max-width: 64em) {
-  .page-header {
-    padding: 3rem 4rem; } }
-
-@media screen and (max-width: 42em) {
-  .page-header {
-    padding: 2rem 1rem; } }
 
 .project-name {
   margin-top: 0;
