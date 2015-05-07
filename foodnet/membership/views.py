@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -9,7 +8,6 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
 from .forms import LoginForm
@@ -19,19 +17,18 @@ log = logging.getLogger(__file__)
 
 
 @sensitive_post_parameters()
-@csrf_protect
 @never_cache
 def log_in(request):
     """login view"""
-    
+
     if request.user.is_authenticated():
         msg = 'You are already logged-in.'
         messages.add_message(request, messages.INFO, msg)
         return redirect(reverse('home'))
-    
+
     ctx = {
-           'title': 'Please log-in.',
-            'form': LoginForm(),
+        'title': 'Please log-in.',
+        'form': LoginForm(),
     }
     if request.method != 'POST':
         return render(request, 'membership/login.html', ctx)
@@ -55,7 +52,7 @@ def log_in(request):
     else:
         msg = 'Invalid email and/or password.'
         messages.add_message(request, messages.ERROR, msg)
-        
+
     ctx['form'] = LoginForm(request.POST)
     return render(request, 'membership/login.html', ctx)
 
@@ -71,6 +68,6 @@ def profile(request):
     """profile page"""
 
     ctx = {
-           'title': 'profile',
+        'title': 'profile',
     }
     return render(request, 'membership/profile.html', ctx)

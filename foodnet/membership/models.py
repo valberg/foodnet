@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
-    PermissionsMixin)
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+                                        PermissionsMixin)
 
 
 class FoodnetUserManager(BaseUserManager):
@@ -41,10 +38,10 @@ class FoodnetUser(AbstractBaseUser, PermissionsMixin):
         (FEMALE, 'female'),
         (MALE, 'male')
     )
-    
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
-    
+
     username = models.EmailField(unique=True, blank=False)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -52,7 +49,7 @@ class FoodnetUser(AbstractBaseUser, PermissionsMixin):
     firstname = models.CharField(max_length=255)
     middlename = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
-    
+
     # old system: adr1, adr2, streetno, floor, door
     address = models.TextField(max_length=2000)
     postcode = models.CharField(max_length=255)
@@ -70,13 +67,14 @@ class FoodnetUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
-        
+
     def get_full_name(self):
         return '{0} {1} {2}'.format(self.firstname, self.middlename,
                                     self.lastname)
+
     def get_short_name(self):
         return '{0}'.format(self.firstname)
-    
+
     @property
     def email(self):
         return self.username
@@ -93,17 +91,17 @@ class Member(models.Model):
 class Division(models.Model):
     shortname = models.CharField(max_length=4)
     name = models.CharField(max_length=255)
-    
+
     # old system: type
     category = models.CharField(max_length=255)
-    
+
     # old system: webmembers
     allow_webmembers = models.BooleanField()
     contact = models.CharField(max_length=255)
 
     # FIXME: should we move it out to model manager with
     # other bits from old models?
-    #members = models.ManyToManyField('membership.Member',
+    # members = models.ManyToManyField('membership.Member',
     #                                 through='membership.DivisionMember')
 
 
@@ -113,6 +111,6 @@ class DivisionMember(models.Model):
     start = models.DateTimeField(auto_now_add=True)
     exit = models.DateTimeField()
     active = models.BooleanField(default=True)
-    
+
     class Meta:
         unique_together = (('member', 'division'),)
