@@ -65,3 +65,9 @@ target/
 # collected static files
 /foodnet/static
 
+# PyCharm
+.idea
+
+# local.py
+foodnet/settings/local.py
+ 
